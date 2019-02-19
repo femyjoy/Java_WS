@@ -1,0 +1,32 @@
+CLASSPATH
+*********
+On doing Build from intellij or running javac from cmd, te .class file is generated. Default path for .class when javac from cmd is same as where the source file is. To override specify the path using -d "<path>".Any classpath that is set explicitly through cmd line while executing java command takes precedence over global classpath.
+
+when classpath is not set in the system, you have to navigate to one level up the package folder and then give the full namespace of the class and execute using java command
+
+If classpath is specified then you donot have to explicitly go to the folder wheree the .class file is, you can run it from anywhere
+
+when using IDEs, the classpath is taken care by the IDE
+
+Lamda Expression and Annonymous Inner class
+*******************************************
+Annonymous classes are declared and used when you want a just in time implementation of a class or Functional Interface (I with just one method). So, only a single object is created for the class while declaring it. In that way you do not have to define a subclass or explicit implementation of an interface.
+From Java 8, you can have default methods and static method in a I but anonymous inner class/lamda expressions can be used to implement any I that has a single abstract method (Functional I)
+Some differences with a normal class would be it can either implement only 1 interface or extend a class at a time and also it cannot have a constructor as it doesnt even have a name.
+
+Lamda expressions can be used to define annonymous inner classes ina functional programming style with Java 8  
+In lambda expressions, you dont have to specify the method name, the param type is also interpreted by JVM, just pass in params in brackets and implement the method. You do not even need the new keyword.
+
+Comparator<String> comp =  (o1,o2) --> o1.compareTo(o2)
+Comparator<String> comp =  (o1,o2) --> {return o1.compareTo(o2);  };
+
+Single params can be passed without paranthesis, no args or more than 1 arg should have paranthesis.
+When only single statement return type is deduced, if more than 1 statement in the method implementation then return type must be specified.
+There are many functional I available in the java.util.function package which is utilised in many inbuild java jars and also can be utilised by developers.
+
+
+lamda exp can implementation can implement I with single abstract method and as many static or default methods
+try : does annonymous inner class generate .class ? 
+
+
+
