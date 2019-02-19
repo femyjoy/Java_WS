@@ -30,3 +30,9 @@ try : does annonymous inner class generate .class ?
 
 
 
+GIT
+***
+https://www.ibm.com/support/knowledgecenter/en/SS9PHW/com.ibm.digitalcommerce.developer.doc/tasks/tde_git_wrkspacepush.htm
+https://www.intertech.com/Blog/introduction-to-git-concepts/
+
+
