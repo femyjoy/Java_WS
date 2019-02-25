@@ -30,10 +30,40 @@ Every class in a java file generates a .class file. Annonymous inner classes hav
 But when annonymous inner classes are implemnted using lamda expression then the .class file is not generated.
 
 
-
 GIT
 ***
 https://www.ibm.com/support/knowledgecenter/en/SS9PHW/com.ibm.digitalcommerce.developer.doc/tasks/tde_git_wrkspacepush.htm
 https://www.intertech.com/Blog/introduction-to-git-concepts/
+
+Object
+------
+Every object has State, Identity and Behaviour
+State - is the variables of class, properties of the class
+Behaviour - methods/functions in the class - how object behaves when state changes - methods, constructor, destructor are all behaviour.
+Identity - property of object which distinguishes it from other objects.
+
+Module - JAVA 9
+---------------
+package - collection of classes
+module - collection of packages
+com.azul.zoop.alpha.Class1
+com.azul.zoop.beta.Class2
+Module - com.azul.zoop
+Module Declaration :
+create module-info.java - This is not a java file but has extension .java and is compiled into class file with list of all the classes with its namespace.
+and declare :
+module com.azul.zoop{
+}
+The module-info.jar file is added to the JAR file.
+
+One module can depend on other module.
+Package visibility can be controlled in the module using the keyword 'export'
+module com.azul.zoop{
+requires com.azul.zoop.alpha
+export com.azul.zoop.beta
+com.azul.zoop.theta  ---> this is not visible or cannot be exported
+
+classloaders have changed - 3 classloaders are there
+}
 
 
