@@ -12,24 +12,14 @@ public class Lambdas {
         MyFunctionalInterface mYFI = (a, b) -> (a + b);
         System.out.println(mYFI.doMaths(2, 3));
 
-/*
 
-        MyFunctionalInterface sample = new MyFunctionalInterface() {
-            @Override
-            public int doMaths(int i, int j) {
-                return i + j;
-            }
-        };
-
-        System.out.println(sample.doMaths(3, 4));
-*/
 
 
     }
 }
 
 
-
+//methods by default in Interface are abstract, default methods have to be explicitly declared.
 
 interface MyFunctionalInterface{
 
