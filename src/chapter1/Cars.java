@@ -21,6 +21,7 @@ public abstract class Cars {
     }
 
     public String typeOfCar(CarTypes type){
+
         switch(type){
             case HATCHBACK : return CarTypes.HATCHBACK.getCarType();
             case MPV : return CarTypes.MPV.getCarType();
@@ -31,6 +32,9 @@ public abstract class Cars {
     }
 
     public abstract String carColour();
+
+    public abstract String carColour1();
+
     public  void wheels(){
         System.out.println("wheels : " +4);
     }

@@ -15,7 +15,7 @@ public class Focus extends Cars implements Comparable<Focus>{
     Focus(String colour,long regNumber){
         super(colour); //if this is not here then it by default calls the non arg superclass constructor
         color = colour;
-        regNumber = regNumber;
+        this.regNumber = regNumber;
 
     }
 
@@ -25,6 +25,9 @@ public class Focus extends Cars implements Comparable<Focus>{
 
     public String carColour(){
         return "blue";
+    }
+    public String carColour1(){
+        return "colour1";
     }
 
 
@@ -44,7 +47,7 @@ public class Focus extends Cars implements Comparable<Focus>{
 
     //one way to implement comparator
 
-    Comparator<Focus> comparatorColour = new Comparator<Focus>(){
+    static Comparator<Focus> comparatorColour = new Comparator<Focus>(){
         @Override
         public int compare(Focus focus1, Focus focus2){
             return focus1.color.compareTo(focus2.color);
@@ -55,5 +58,10 @@ public class Focus extends Cars implements Comparable<Focus>{
     @Override
     public String toString() {
         return this.color +""+ this.regNumber;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        return true;
     }
 }

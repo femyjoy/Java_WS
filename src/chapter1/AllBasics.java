@@ -1,18 +1,12 @@
 package chapter1;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class AllBasics {
     public static void main(String[] args) {
         if(args.length>0){
          for(String arg:args)
              System.out.println(arg);
-
-
-
         }
         GoodnessOfStrings good = new GoodnessOfStrings("Yay");
         System.out.println(good.iAmFinal); //final instance variable in the class has not been effected, the one in the constructor is a new variable
@@ -29,21 +23,83 @@ public class AllBasics {
         Focus focus2 = new Focus("Black",2345);
         list1.add(focus1);
         list1.add(focus2);
-        Collections.sort(list1);
-        list1.forEach(l-> System.out.println(l));
-        System.out.println(list1); // uses the comparable implementation
-        Collections.sort(list1,new ComparatorregNumber());
-        System.out.println(list1); // uses the comparator implementation
-        // Collections.sort(list1,comparatorColour);
-        System.out.println(list1); // uses the comparator implementation
+        System.out.println("Printing list sort by reg number ");
+        Collections.sort(list1); // uses the comparable implementation
+        list1.forEach(l-> System.out.println(l)); //implements Consumer
+        System.out.println("Simply printing list: ");
+        System.out.println(list1);
+        Collections.sort(list1,new ComparatorregNumber()); // uses the comparator implementation
+        System.out.println(list1);
+        Collections.sort(list1,Focus.comparatorColour); // uses the comparator implementation
+        System.out.println(list1);
+
+        //Alternate ways to loop through list
+        Iterator i = list1.iterator();
+       while(i.hasNext()){
+           //blahb lah
+       }
+
+       for(Focus f : list1){
+           //blah blah
+       }
+
+       Map<String, Focus> focusMap = new HashMap<String,Focus>(); //implements BiConsumer
+       focusMap.put("white",focus1);
+       focusMap.put("black",focus2);
+
+       //Java 8 way to iterate
+        System.out.println("Printing map values using forEach: ");
+       focusMap.forEach((k,v)-> {System.out.println( k + v.color);});
+
+       //using EntrySet
+        System.out.println("Printing map values using EntrySet:");
+        for (Map.Entry<String, Focus> entry : focusMap.entrySet()){
+            System.out.println(entry.getKey()+entry.getValue().color);
+
+        }
+
+        Map<Focus, Focus> focusMap2 = new HashMap<Focus,Focus>(); //implements BiConsumer
+        focusMap2.put(focus2,focus2);
+        focusMap2.put(focus2,focus2);
+
+        //Anonymous inner class for abstract class Cars
+
+        methodTakesCarsImpl(new Cars(){ //anonymous implemention of the abstract class, all teh abstract methods have to be implemented
+            public String carColour(){
+                return "anonymous";
+            }
+            public String carColour1(){
+                return "blue";
+            }
+
+        });
 
 
+//Normally collections can take heterogenous object types except TreeSet and TreeMap
+        HashMap heteroMap = new HashMap();
+        heteroMap.put(1,"dad");
+        heteroMap.put("hello",2);
+        heteroMap.put("hai","world");
+        Set values = (Set)heteroMap.values(); //gives a collection, can be cast to List or Set
+        List keyList = (List)heteroMap.keySet(); //casting set to list
+        List entryList = (List)heteroMap.entrySet(); //casting set to list
+
+        List heteroAL= new ArrayList();
+        heteroAL.add(1);
+        heteroAL.add('a');
+
+        Collections.emptyMap();
 
 
 
 
     }
 
+
+    private static void methodTakesCarsImpl(Cars cars){
+        System.out.println("Prinitng from private method"+cars.carColour());
+
+    }
 
 
 
