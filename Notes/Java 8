@@ -1,0 +1,519 @@
+return statement in a void method doesnot do anything.
+
+NULL - unreferenced variable.
+Accessor - getter method
+Mutator - setter method
+
+final - class cannot be inherited
+final method cannot be overriden
+final fields - must be initialised either during declaration or in the constructor. If multiple constructors, then in all the consturctors.
+Once final is initialised in the class, then it cannot be changed even through the constructor.
+
+abstract class may or maynot have abstract method, must be sub classed
+even if one method is abstract - class shd be declared abstract and this method must be implemented in sub class
+instance memebers and constructors of abstract class is invoked when subclass is instantiated.
+static members are invoked when the abstract class or non abstract is loaded into JVM.
+
+abstract - cannot be instaniated bcos an object cannot have abstract methods and JVM does not allocate memory for abstract methods.
+static methods - cannot be overridden but can be hidden by subclass, if subclass doesnt declare it as static, compiler thinks its trying to override (static is not part of method signature) and complains.
+Overriden methods cannot have params that are subtypes of super class param type, this is not overridding.
+
+class/method can be either abstract or final, not both together
+abstract methods cannot be static as static cannot be overriden but can be hidden by subclass
+abstract methods cannot be strictfp or native
+A native method is a Java method (either an instance method or a class method) whose implementation is written in another programming language such as C.
+Strictfp is used to ensure that floating points operations give the same result on any platform. As floating points precision may vary from one platform to another. strictfp keyword ensures the consistency across the platforms. Can be applied to class, interface or method declarations.
+
+JVM loads classes only when any information from the class is needed.
+Car car; --> class not loaded
+String x = Car.type --> class is loaded
+Car car = new Car(); --> class is loaded
+
+
+
+Initialisation block (non static)- 
+Executed as if it was placed at the start of constructor. This is equilavalent to a costructor which is referenced using 'this' from other constructors. if there are multiple executable blocks, then they are executed in the order they are in the class.
+Non static initilisation blocks are executed every time an instance of the class is created, either through default constructor or through constructor with arg- https://www.geeksforgeeks.org/order-execution-initialization-blocks-constructors-java/
+Order of execution - initializatin fields, initialization blocks, constructors
+Static is initialised when the class is loaded into JVM, ie before an instance is created.
+static is executed only once per class, even if you invoke multiple constructors of the class.
+The static blocks of super class is executed even when subclass is instantiated, they are executed before the superclass or subclass constructors are called.
+Order : static in super class, static in sub class, super class constructor, subclass constructor
+
+Constructor/method overloading - Method/ Constructor signature has 3 parts - number of params, type of param, name of method/constructor
+Variable args - you can have variable args in method param using 3 dots
+method(int...a){}
+a is considered as an array of int type and now you can call method1 with 1,2...n paramters
+eg: method1(1);
+method1(2,3); etc...Inside the method its considered as elements of an array.
+Restrictions - there can be only 1 varg in a method, the varg should be the last parameter in the method definition.
+
+Inheritance - 
+If a sub class constructor does not explicitly invoke a superclass constructor, the Java compiler automatically inserts a call to the no-argument constructor of the superclass
+Super class reference subclass object instance will have access only to super class methods and none of the subclass methods.
+When there is member hiding in sub class, this instance will be pointing to variables in super class and not the sub class ones.
+Example : 
+superclass{
+	var1=10;
+	/*
+	getVar1(){
+	return 10;
+	}*/
+
+	returntype method1(){
+	return var1;
+	return getVar1();
+	}
+}
+
+subclass{
+	var1=20; //member hidding
+	/* Overridden method
+	getVar1(){
+	return 20;
+	}
+	*/
+	returntype method2(){
+	blah blah;
+	}
+}
+
+anotherclass{
+	psvm(){
+	subclass i = new subclass();
+	i.method1(); ---> will get i=10 and not i=20
+	/*i.getVar1(); ---> will get i=20 and not i=10 */
+	}
+}
+
+In contrast, when methods are overridden, the overridden method takes preference and then this instance, even though super class reference, will be refering to overriden subclass method.
+Refer to /* */ blocks in the example above.
+Always use the @Override annotation when overriding as this will make sure compiler checks the signature of this method.
+When superclass method has throws clause, Overriding method can either skip throws, declare the same exception or declare subclass type exception of base class method.
+
+
+String -
+string.intern() - makes the ref to point to a string with same value in the memo pool.
+String stringVersionOfInt = String.valueOf(int);
+
+
+Wrapper classes -
+Are immutable 
+Boolean, Character, Number(abstract) - Integer, Double, Float, Byte extends from Number
+Integer wrapperVersionOfInt = Integer.valueOf(1);
+Integer a=100===Interger a=Integer.valueOf(100)
+To make class immutable - 
+final class, private fields, no setter, mutable fields final, initialise fields via constructor.
+https://www.journaldev.com/129/how-to-create-immutable-class-in-java
+
+
+Exception Handling - 
+finally is executed after try or after catch - does all cleaning up to be done.It is called even if exception happens or not.
+All Errors and Exceptions come from base class - Throwable
+Errors - are mostly problems with JVM and so doesnt normally have to be handled in code. They are unchecked exceptions/errors.
+Exception  - Errors in programs.
+Exception - Checked and Unchecked Exception
+Checked - has to be handled else compiler complains
+Eg: IOException 
+Unchecked  - Can be checked in code but even if not handled, compiler doesnt complain eg: RunTimeException   , eg : NPE 
+Checked and Unchecked exceptions inherit from class Exception. Any other exception than RTE is checked exception.
+order of catch blocks should be type specific ones first and then general.
+Method should either handle the exception using try, catch or declare that it could throw an exception using the throws clause.
+Even if the exception doesnot happen, you can have the try and finally in the method with the throws clause, so cleaning up is done anyways. In that case, try - finally is exceuted in the method and the exception is passed up the call stack.
+
+void method() throws IOException{ //if any exception in the try then the exception is passed up the call stack after the finally, so called third.
+	try{  //called first
+	...
+	}
+	finally{ //called second
+	..	
+	}
+}
+
+When superclass method has throws clause, Overriding method can either skip throws, declare the same exception or declare subclass type exception of base class method.
+
+Throw - method can throw exception explictly, mostly used to send a meaningful exception type.
+When throwing a new kind of exception, always include the originating exception using the initCause or ocnstructor of the exception.
+User created exception classes are checked exceptions.
+We can throw either checked or unchecked exception. The throw keyword is mainly used to throw custom exceptions.
+
+Packages - 
+provides namespace; convention is reverse of domian name; helps to avoid naming collisions
+type name includes package name, so any class with a package name, the type now if packagename.className and not just className.
+import - mapping for compiler
+Any type in same package and any type from java.lang package doesnot have to be qualified/imported.
+When applicatin is built, each part of package creates a folder and .class file is stored under the folder structure.
+Archive - single file of all the folders with .class file.
+Manifest - provides information about the archive, like start up class.
+JAR can be created through IDE or cmd line utility or build managers like Maven /Gradle
+Command to create jar from command prompt : jar cf jar-file input-file(s) (c - create jar, f - output to a file rather han std out, optionally -v -- if you want verbose output on command prompt on the files that are being added to the jar)
+
+
+To run .class file from cmd prompt, cd to one folder above the package level and execute - java <fullNamespaceofClassWithMainEmthod>
+
+To build jar from intellij - File - Project Structure - Artifacts - Click on + to select jar - now select the class with the main method that needs to be run on executing the jar. MANIFEST(created in META-INF) file enters this as Main class name and the jar uses the manifest to run the application .
+Go to folder (out/....) and run java -jar <jarFileName> from cmd prompt to execute the jar file.
+If you change the extension of jar file to zip and explore the contents , it has the .class files and the Manifest file.
+
+Interface
+------------
+<T> - means the interface can be declared for a particular type.
+public class implements Comparable <Flight>
+
+public int compareTo(Flight flight){//instead of Object o
+//no need to cast 
+...
+}
+
+Arrays.sort(arrayOfObjects) - calls the compareTo implementation of the object.
+Collections.sort(list); - calls the compareTo implementation of the object.
+Collections.sort(list, new classThatImplementsComparator()); - compare() of classThatImplementsComparator is invoked.
+String and wrapper classes already implement compareTo and so fields of this type can be easily used in compareTo method to compare values
+To reverse order a list of STrings - Collections.sort(list, Collections.reverseOrder()); -- reverseOrder - returns a comparator that reverses order of sorting.
+compareTo is case sensitive, to be not case sensitive, use compareToIgnoreCase
+current obj (this) < passed param = -1
+Comparable is used when you have access to source class and always compares with that object type
+Comparator is used when you dont have access to sourcec class and can comparae obejects of 2 different types.
+Comparator has methodpublic int compare(Object o1, Objeact o2) that needs to be implemented
+Both comapre and compareTo returns a -ve, +ve or 0, doensot have to be necessarily -1, +1, anyt -ve + ve value
+
+Set<Apple> s = new TreeSet<Apple>();
+or
+Set<Apple> s = new TreeSet<Apple>(new comparatorClass());
+Class Apple must implement Comaparable or Comparator to define the sorting order for its objects as treeset is sorted
+
+
+Class loading - https://www.programcreek.com/2013/01/when-and-how-a-java-class-is-loaded-and-initialized/
+
+Source file name - has to be same as public class name
+Encapsulation - groups together data and method that acts upon the data - class. Achieved using private fields and public getters and setters.
+Abstrcation - HIding the implmenetation details , achieved using Interfaces and Abstract classes. The impelmentation is left to the implementing class.
+Encapsulation is data hiding(information hiding) while Abstraction is detail hiding(implementation hiding).
+
+
+Paths
+-----
+https://examples.javacodegeeks.com/core-java/java-nio-read-file-example/
+
+HashTable
+---------
+Hashtable is also an implementation of Map, just like Hashmap, only that Hashtable is synchronized.
+Is a synchronised version of HashMap.
+https://www.tutorialspoint.com/java/java_hashtable_class.htm
+
+java.util - Collection I extends Iterable
+List, Set, Queue inherits from Collection I, which extends from Iterable.
+Map doesnot and so doenot have a Iterator, has to be iterated through EntrySet, KeySet etc...
+List implementations - Vector, AL(resizable array implementation), LL(doubly LL implementation, can traverse in either direction). V - synchronised, AL - faster in fetching/searching, LL - faster in deletion and insertion. LL has to go through the entire list for fetching.
+List is ordered by default.
+Set implementations - HashSet, LinkedHashset (maintains order), TreeSet (implements Sorted Set). WHile adding items to Treeset the object must have implemented Comparable  or should have a comparator to pass in, EnumSet (stores Enums of same type - https://www.geeksforgeeks.org/enumset-class-java/)
+Set doenot allow duplicates.
+To remove any duplicates from a list, use LinkedHashSet so duplicates are removed and order is maintained.
+LinkedHashSet<> lhs = new LinkedHashSet<>(list);
+Map implementations - Hashmap, LinkedHashMap, TreeMap (sorted, implements SortedMap, doesnot allow NULL key but can have multiple NULL values), Hashtable - synchronised.
+https://howtodoinjava.com/java/collections/hashmap/design-good-key-for-hashmap/
+Hashmap doesnot allow duplicate keys, only 1 NULL key is allowed, multiple NULL values are allowed. If Null is key, then its hashcode is not calculated, its always 0, its put in a separate bucket called bucket0, Entry[0]
+If objects are used as keys in Hashmap, then the class should implement Hashcode because hashmap calls hashcode of the object to get the hash for the object to determine which bucket the key should go to. the hashcode is used as index of the array where the value is to be stored. Bucket is entry in the array, Entry, its called a bucket as it can store a linkedlist.
+Hashcode should always always return the same value for the same objet. For this, its best practice to make the class immutable, so its state cannot be changed. This is why Wrapper and String are good candidates for keys. Now even if the class doesnot implement hashcode or equals, the default hashcode from Object class will be used and the results will not be desirable as every object in the default equals() from Object class is based on Object reference equality.
+Hashcode of key is calculated for put and get. 
+This is why when 2 objects are equal as per equals() method, the it should return the same hashcode values, to allow retrieval from hashmap.Use the same set of significant fields of the object to determine equality and calculate hashcode. To ensure hashcode of equal objects are same, when equals is overrriden, you have to override hashcode as well.
+How hashmap works - https://howtodoinjava.com/java/collections/hashmap/how-hashmap-works-in-java/
+To make class immutable - https://howtodoinjava.com/java/basics/how-to-make-a-java-class-immutable/
+no setter methods
+final private fields
+class cannot be overriden, make is final.
+
+Iteraor - fail fast - throws concurrentModificationException if collection is modified while iterating through it
+ListIterator, Enumerator (old but faster) - fail safe- allows modification of collection while iterating through it, this works by cloning the collection before itearting through it.
+
+
+
+Properties
+----------
+Is a Hashtable, is synchronised.
+Reading from props file into hashmap :
+localizedMap.putAll(prop.entrySet().stream().collect(Collectors.toMap(e->e.getKey().toString(),e->e.getValue().toString())));
+Since its hashtable, while reading properties, it allows reading duplicate key values but replaces the value with the new value of the key.
+Hashtable, doesnt throw exception on duplicate keys but replaces the value with the new value.
+https://www.quora.com/Did-hash-table-allow-duplicates-in-Java
+hashtable doesnot allow any NULL keys or values
+when altered, .properties file doesnot have to be re-compiled.
+
+In java 8, List has its own sort method, so neednt call Collections.sort, instead can use List.sort(Comparator e);
+
+Collections and NULL
+--------------------
+List - AL, LL, V - allows any numbers of NULLs
+Set - HashSet - Allows 1 NULL value, LinkedHashSet - Allows 1 NULL value ;  TreeSet - cannot have NULL value, it throws NPE from compareTo()
+Map - HashMap, LinkedHashMap - 1 NULL key, multiple NULL values, 
+HashTable - No NULL keys or values - this is very old and people dint think of it that time
+TreeMap - No NULL key --> NPE from compareTo() and any number of NULL values.
+
+TreeMap and TreeSet are only Collections that doesnot allow heterogenous objects as it can do comparison only among same object types for sorting.
+
+map.entrySet() - though returns set view of Map.Entry, can be converted to List
+Similarly, map.values() - returns Collection type and can be casted to List or Set.
+
+
+Streams - https://www.youtube.com/watch?v=t1-YZ6bF-g0&t=932s
+Map, Filter - https://dzone.com/articles/how-to-use-map-filter-collect-of-stream-in-java-8
+Convert elements in list from object to String : 
+List<String> keywordsList =  Arrays.asList(keywords).stream().map(Object::toString).collect(Collectors.toList());
+https://www.geeksforgeeks.org/stream-in-java/
+
+Lambda - https://www.youtube.com/watch?v=lIXs4Y8sJCk
+Lambdas have to target single abstract method (SAM) on interfaces, and they don't work with single abstract method on abstract classes.
+Annonymous functions - https://hashnode.com/post/anonymous-functions-in-java-explained-cj1opkbj8000sml53bsq6r6cj
+Lambda can be used to pass in funcitonal I method implementatons as params to method;
+Double colon operator to access static method, instance method (the methods should be an implementation of a Funcitonal I), super and new - https://javapapers.com/core-java/java-method-reference/
+https://www.geeksforgeeks.org/double-colon-operator-in-java/
+
+Lamda way to create anonymous inner class - can access only variables that are final or effectively final, emaning if the value of the variable is changed within the lamda scope then it fails.
+
+Anonymous inner class  - 
+is used when you expliciltiy donot want to create a class to implement an interface or abstract class.
+So you get the behaviour without having to subclass, this is done only if its a one time use.
+Anonymous inner class can access local effcetively final variables in it outer scope, can declare variables that shadows outer variables.
+http://edayan.info/java/anonymous-inner-classes-in-java-what-and-why
+
+Abstract class vs Interface : 
+Consider using abstract classes if :
+
+You want to share code among several closely related classes.
+You expect that classes that extend your abstract class have many common methods or fields, or require access modifiers other than public (such as protected and private).
+You want to declare non-static or non-final fields.
+Consider using interfaces if :
+
+You expect that unrelated classes would implement your interface. For example,many unrelated objects can implement Serializable interface.
+You want to specify the behaviour of a particular data type, but not concerned about who implements its behaviour.
+You want to take advantage of multiple inheritance of type.
+
+To make your class cloneable, implement Cloneable I and override protected Object clone() method. Default cloning is shallow(Both copy points to same object), to deep clone, have your own implementation.
+https://javaconceptoftheday.com/difference-between-shallow-copy-vs-deep-copy-in-java/
+
+
+
+Predicate - https://www.javabrahman.com/java-8/java-8-java-util-function-predicate-tutorial-with-examples/
+
+
+Function - Functional Interface(Interface that has 1 abstract method) that has 1 abstract method Apply, that accepts 1 arg and produces a result.
+PRedicate - Functional Interface that has 1 method that accepts 1 arg and produces a boolean return value
+Both are in java.util package
+
+Heap and STack
+--------------
+https://www.journaldev.com/4098/java-heap-space-vs-stack-memory
+Objects,instance variables, instance Obj references, static fields, methods of class are stored in Heap.
+References to objects from methods or primitives in methods, params in methods are stored in stack (LIFO)
+The compiled .class files are stored in 'Method Area'
+
+Enums can be declared inside or outside of a class but never inside a method.
+
+Convert an array to List
+Arrays.asList(array) maintains order of elements
+Convert list to array
+listObject.toArray(new String[listObj.size()]); --> an array always needs size to be specified.
+
+Iterator and ListIterator
+-------------------------
+https://beginnersbook.com/2014/06/difference-between-iterator-and-listiterator-in-java/
+
+System Properties
+-----------------
+https://examples.javacodegeeks.com/core-java/lang/system/java-system-properties-example/
+
+
+Create new files in Java
+------------------------
+https://howtodoinjava.com/java/io/how-to-create-a-new-file-in-java/
+
+Hamcrest Matchers - http://www.vogella.com/tutorials/Hamcrest/article.html
+
+Generics
+--------
+Difference between : 
+public interface PositionedVertex<V extends PositionedVertex<V>> {
+...
+}
+
+and 
+
+public interface PositionedVertex<V> {
+..
+}
+
+The <V extends PositionedVertex<V>> is a bound on the generic type that is associated with your interface. It just means that the generic type parameter for any class that implements this interface must itself be a PositionedVertex. In the first case, you have bounded your generic type parameters to be subtype of the interface itself, whereas, in the second case, you can have any type as generic type parameter. Eg: Defining reference - PositionedVertex<String> is valid for 2nd but not for 1st.
+
+List<? super Integer> - can have List<Integer>, List <Number> and List<Object> - so anything same as or super type can be stored.
+List<? extends Car> - this list can hold objects of Car and any subclasses of Car.
+
+To connect to SQLSever from code:
+https://docs.microsoft.com/en-us/sql/connect/jdbc/connection-url-sample?view=sql-server-2017
+
+ResultSet - https://www.cs.mun.ca/java-api-1.5/guide/jdbc/getstart/resultset.html
+CLOB - used to store large Character objects - like large text - of CHAR, VARCHAR types
+BLOB - used to store large Binary objects - like video, audio, any multi media objects 
+
+Design patterns - https://www.youtube.com/watch?v=-OFO7CexSII
+
+
+-------
+Data STructures and Algorithms (Not Java 8)
+-------------------------------------------
+The data structure used depends on the most used operation in the application for that data structure or which operation for that data structure is needed more fast than others.
+Easiest way to check correctness of algorithms is to check its incorrectness but using a set of border line data.
+2 things to consider when deciding on algorithm, is space complexity and time complexity. With more RAMs available nowdays, time complexity is more considered to design algortihm, which is very relative to RAM and environment where the server is kept and also on the size of data.
+Calculating time ocmplexity - 
+Order of Growth of algorithm - how the time taken by algorithm varies with inc. in size of data. Algorithms are compared based on Order of Growth and the one which has smalles order of Growth is selected.
+Generally O(n power2) - selection and insertion sort algorithms are slower and O(log2n) - binary search are very fast algorithms
+While looking for time taken using RAM Model Computation,assumtions are made :
+memory is infinite ; each operation (+,-,* etc..) takes 1 unit of time ; each memory access (read, move) takes 1 unit of time; data is all in RAM
+Comparison of Bubble, Selection and Insertion sort algorithms (sorting and ordering are same)
+Bubble sort - most ineffecient w.r.t time
+Selection -running time is independant of orderingof elelemts as we anyways looks for smallest value
+Insertion - most versatile, efficient for small arrays, almost linear ; can be used in other sorting algortihms, like shell sort
+Stable sort - Sorting si stable if the order of elements is unchanged after sort when there are 2 equal elements. Stability of the sort is determined by the code you write based on the comaprison done as > or >=
+Searching in unsorted array - worst time - O(n)
+Searching in sorted array :
+BinarySearch - Dive and Conquer method - find mid point and compare the element to be searched with the element at that point, and then decide to go left or right, then find mid point of this subset and continue
+Inserting in ordered array : search + insert (which involves moving rest to right) - O(log2n) + O(n)
+Deleting in ordered array : search + delete( which involves moving )
+
+LinkedList - ordered, each element/node points to next element and last element points to null element. Linked list object itself has reference to first element - head
+Each node - data + ref to next node
+Last node - data + NULL
+Inserting new head - point new node next to current head and current head to new node
+Delete head node - point head to head.nextNode
+Searching in LL - you have to iterate through the liniedList. Time - worst case - O(n)
+Doubly Ended List - has reference to 2 elements - head and tail, so can add/delete at elements to both ends.
+Inserting in a sorted linked list - go through the linkedlist and check if the next node to current node is bigger than the element, if so, node.nextNode(currentnode.nextNode) and currentnode.setNextNode(node). Time complexity - O(n) - linear time operation.
+Doubly linked list - Every node has ref to prev node + data + ref to next Node. Head - NULL+data+NextNode .... prevNode+Data+NULL(Tail)
+To insert data into doubly linked list at head, newNode.sexNextNode(this.head), if this.head != null, then this.head.previousNode(newNode), head = node, node.previousNode = NULL
+Insertion sort is much more faster in a doubly linked list compared to array, as we just need to just update references to insert the data and dont have to move data.
+By using forEach for iterating through list, you are doing annonymous implemention of Consumer I  using lambda expression. - void accept(T t);
+By using forEach for iterating through map, you are doing annonymous implemention of BiConsumer I  using lambda expression.
+
+Stack - LIFO. Operations  - push, pop, peek. Is an abstract data type implemented underneath using array or LL. All the 3 operations are constant time operations - O(1) time.
+Queue - FIFO. OPerations - enque(to tail), dequeu(from head), peek (element ta head). can also check size of queue. Is an abstract data type implemented underneath using array or LL.
+circular queue - Q where the tail comes back to the beagining of Q to insert new data.
+DE Queue - Double ended Queue - allows to add and remove from head and tail
+
+Recursive methods - should have breaking conditions else you get StackOverflow - RTE
+Call stack/Method stack - is memory area for method variables or expressions.
+In case of recursive methods its also called Recursive stack.Every call to itself is stored stored in the Recursive Stack and not evlauated then, till breaking condition is reached. And the values are popped after execution of each entry in the stack until al lthe values are popped and the final value is the result of the function. That is why we get tackoverflow Error if no Breaking condition.
+Stack overflow can also happen if the method is called with a very large data.
+Tail Recursion - way to not use stack by using a variable to store the results of each recursive, called the ACCUMULATOR. Java doesnt recognize Tail recursion, it always creates call stack.
+Ietrative - is faster and uses less memory
+Merge Sort - merging 2 sorted arrays to create one sorted array.
+Comparing the first element of the 2 individual array, put the smallest as first of resulting array
+move pointer to next of first array, compare it with first of 2nd array and move smallest to resulting array.
+Always the pointer mmoving is the next to the one that was just moved to resulting array.
+Merge sort is a recursive algorithm.
+if we have an unsorted array, then break the array into 2 about midway, keeping breaking them into smaller arrays till you have array with just 1 element. 
+Then merge sort al lthe smaller ones to the final bigger array. Time complexity - O(nlog2n) - very fast for large arrays and not for small ones#
+Java Collection framework uses Merge sort as default sorting algorithm.
+Binary Trees - Fast for insertion, searching and deletion. Logn
+
+Trees - Is a non-linear data structure unlike other data data structures. Is an hierarchial dtaa structure.
+IS an inverted tree :)
+Nodes with edges. Tree has reference to Root Node, there can be only one path to any node from root node, meaning nodes cannot be inter connected.
+Node that doesnt have any children - Leaf node. 
+Depth of a node - number of edges from root
+Height of a node  - number edges through the longest path to the leaf
+Number of nodes at a layer = 2(^depth-1). Total numbr of nodes,n  = 1+2+4+....+2(^depth-1).
+Depth  = O(log2n)
+So, max time to find, insert, delete an item  = O(log2n) + time taken to compare at each node level.
+
+Binary Trees- Tree that has atmost 2 children per node, can be zero, 1 or 2.
+Each node has reference to left node + data + ref to right node.
+Binary Search Tree - Tree where each children of the node to its left has value less than the node itself and to the right has value greater than the node.
+Searching in Binary Search Tree - Start with rooot and compare with root, return if equal, if notequal, then move to left or right node as per comparison result if its larger or smaller.
+The search is recursively done in each subtree and is faster.
+Inserting is also done recursively by comparing the value with the node and then accordingly moving left or right nodes.
+Deleting a node - To delete a node, find the node and then 
+If its leaf node - make its parent to refer to NULL, so its automatically garbage collected.
+if it has single child - make its parent point to child
+if t has 2 child nodes - then you have to replace the node with the sucessor node which fits in perfect with the value -- This is a bit complicated algorithm.
+Finding smallest value - traverse through the tree till you reach the leftmost leaf node
+Finding largest value - traverse through the tree till you reach the rightmost leaf node
+TRaversal mechanisms :
+In-order : left node - root - right node. 
+This means traversing every sub tree of left to the node the same manner again.So, left subtree left node - parent of left subtree - left subtree right node(left subtree)- current - right subtree left node- parent of right subtree - right subtree right node(right subtree) 
+Pre Order : Root - left - right.So, root - parent of left sub tree - left subtree left node - left subtree right node - parent of right subtree - right subtree left node - right subtree right node.
+PostORder : left - right - root. Left subtree left node - left node right subtree - parent of left sub tree - right subtree left node - parent of right subtree - right subtree right node.
+Ideally trees should be balanced for optimum performance, which means the child nodes should be equally distributed and not leaning to one side of root.
+
+Other Sorting algortihms:
+Quick Sort - can be done without using any extra memory space - in place sorting, unlike merge sort which creates another array, doesnot depend on temperory variables used
+Time, worst case - o(n2)
+Select any number, preferably last number in the array, called the pivot. Then rearrage so that all elements to the left are smaller and to the right are larger but they are not sorted themselves. This way we have partioned th arrays into 2 with elements in left (unsorted) < pivot and elements in right (unsorted) > pivot. Now this algorithm is called recursively to partition and quick sort left side and then right side.
+Logic - So compare pivot with first element and exchange if its smaller but if larger then compare the first and second and exchange them if second is smaller, keep doing this within the arrray incrementing i and j till jth element is bigger than pivot,
+Is same as insertion sort but array is sorted in intervals.
+Every nth element is sorted. i.e 0th, 0+ 1*nth element`, 0+2*nth element and so on.., then every nth+1 element...till end of array. THen in the second second pass, reduce n = n-1.
+Eg : 0,4th,8th...then 1st,5th,9th..
+second pass - 0,3rd,7th...
+and the number n is determined by Knuth's algorithm, n = 3n+1 , so 1,4,13,40 as long as  n<lenght of array.
+Sorting in Linear TIme - time taken is propotional to data size when we have some information on the data in the array. - Counting Sort, Radix sort, Bucket/Bin Sort.
+
+Counting Sort -effective if data is within a range of values.
+create temp array with number of elements = range of elements in the original array.
+Increment the number in each element of temp array by the the number of items of that index in the original array.
+Then arrange the elements from each temp to recrate the original array.
+Time taken = 3n+K (k-range of numbers)
+
+Radix Sort - sort numbers first by 0th radix positiion, 1st radix position ...nth radix position
+Time taken = n*k - k,number of radices
+
+Bucket/Bin sort - create temp array whose indices has all elements of the number system of the data. For decimal, 0-9.
+Then place the numbers with 0 in last radix position under 0, 1 in last radix position under 1 and so on. Each index now has refernce ot a linked list.
+Sort each of the linked list and recreate the final array.
+Time taken = n 
+
+
+
+Servlets - Server Component
+Resides on server - is a web container 
+Web container - is the continer in server that serves you pages dynamically. Eg: profile pages in fb. there is no indicidual resource in server for every profile, its created dynamically by the server using web container. web container is the code that serves pages dynamically. Java version of the web container - servlets.
+Servlets serves pages and server sends this page to client.
+Difference from normal class - 
+extend class with HttpServlet (or implement ServletInterface) and annotate with @WebServlet and the action method to which it maps.
+service() - is used to process any operations. There are two types - doGet() and doPost(). This will be automatically called based on action method type.
+web.xml - has mapping for every request to the servlet class
+The form action from the UI gets mapped to a method with the same name in the servlet. The name of the fields are used in the request parameters in the servlet to access the values enteered from UI. The fields are passed in url param if the form action method type is GET or stored in cookies if the action method type is POST. (more secure but slower)
+Common ones are Tomcat, JBOss. This cannot be handled by JVM.
+Tomcat - webserver that comes inbuilt when you try to create a webapp type project in the IDEs.
+
+
+NestedTypes - type inside a type - class inside class, I inside I
+the nested type is of outer class/I type.
+2 purposes of nesting: 
+1. Structure and Scoping - there is no relationship between instances of both types example : static inner class accessed using Outer.Inner
+2. if not marked static, then the inner class has access to instance members ofouter class.
+
+Inner Class :
+When outer class is instantiated, inner class is not instantiated.
+Inner class can access members, variables and methods of outer class.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

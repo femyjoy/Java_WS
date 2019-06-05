@@ -1,0 +1,60 @@
+DataStructures
+https://www.youtube.com/watch?v=0XL1NBUv2NU
+
+
+DataStructure - its a contianer of data
+Stack, Queue, Linked List, Sort, HashTables, Trees
+Stack - LIFO - is done with 2 DS - array and LinkedList
+The size of stack is declared at definition and there should be a pointer to top of the stack.
+push and pop happens to the top of the stack.
+The inbuilt stack class is an extension of Vector with some additional methods to push, pop, peek, search, empty().
+
+Vector - The iterators returned by this class's iterator and listIterator methods are fail-fast: if the vector is structurally modified at any time after the iterator is created, in any way except through the iterator's own remove or add methods, the iterator will throw a ConcurrentModificationException. Thus, in the face of concurrent modification, the iterator fails quickly and cleanly, rather than risking arbitrary, non-deterministic behavior at an undetermined time in the future. The Enumerations returned by the elements method are not fail-fast.
+
+Queue - FIFO - works with array
+
+LinkedList - 
+Singly LinkedList - 
+HEad has address of first node, and every node has an object and address of next node. The last node has object and null.
+Head --> just address of first node
+1st node - obj + address of next node(this portion points to )
+...
+last node - obj + null
+
+ 
+
+Size of linkedlist increments at RT and removes memory as elements are removed and hence more memory efficient than array. At any point, memory is allocated only acc to number of elements.
+Array - has fixed size, is rigid and hence may have unutilised memory.
+
+DoublyLinkedList - evrey node has addressOfPrevNode+data+addressOfNextNode
+(head)-->null+data+next -> next+data+next+1 -> next+data+null
+doubly linked list needs more memory and soem operations are slower.
+But adv - ierated in reverse without recursion ; can insert/remove at an arbitrary node faster because you donot have to scan from the begining, can reverse easily, traverse in both directions.
+
+
+CircularLinkedList - address in last node -> address of first node.
+
+Tree - parent node has child nodes and evry child node has further child nodes (grandchild nodes of parents node). Every node can have one to many children.
+
+BinarySearchTree - 
+Value of left child should be equal or less than its Parent node, right child should have value greater than its parent node.
+Every node should have atleast 2 child nodes.
+Every node has leftChildAddress+data+RightChildAddress.
+parent node will have null+
+
+
+
+
+
+
+Algorithms
+2 common criteria to analyse algorithm - space and time.
+Space analysis is no longer very relevant as nowdays memory is available for cheap.
+Common way to analyse performance of algorithm time : 
+https://www.geeksforgeeks.org/analysis-of-algorithms-set-1-asymptotic-analysis/
+
+
+Sorts
+Bubble sort - compares current element with next element, bubbles element to next element if its greater than the next gives result in ascending sorted order.
+https://www.youtube.com/watch?v=F13_wsHDIG4
+

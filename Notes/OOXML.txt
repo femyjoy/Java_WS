@@ -1,0 +1,7 @@
+The Open XML SDK 2.5 for Office simplifies the task of manipulating Open XML packages and the underlying Open XML schema elements within a package.
+The SDK is built on the System.IO.Packaging API and provides strongly-typed classes to manipulate documents that adhere to the Office Open XML File Formats specification.
+
+Office Open XML (also informally known as OOXML or Microsoft Open XML (MOX)) is a zipped, XML-based file format developed by Microsoft for representing spreadsheets, charts, presentations and word processing documents.
+Microsoft's core set of application programming interfaces (APIs) available in the Microsoft Windows operating systems
+https://docs.microsoft.com/en-us/office/open-xml/about-the-open-xml-sdk
+[Content_Types].xml , .rels

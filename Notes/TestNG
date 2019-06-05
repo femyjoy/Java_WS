@@ -1,0 +1,100 @@
+Junit vs TestNg - 
+https://www.baeldung.com/junit-vs-testng
+
+Hard Assert
+-----------
+Assert.assertEquals(), Assert.assertTrue() - These when evaluated to false, throws AsertionError and doesnt execute any lines after the assert.
+The test is marked FAILED.
+The rest of the lines of code in the test is ignored UNLESS the AssertionError is handled using a catch statement and execution proceeds 
+to next test. 
+If the Assertion Error is handled, then the execution proceeds to the next statements and to the next test and test1 is marked passed as the assertion error was handled.
+The test is marked PASSED.
+
+So, when test has multiple assert statements and if you want all ofthem to be executed inspite of one of them might have failed, use a try catch around each Assert.assertTrue nd catch the AssertionError.
+
+The order of execution may not be in the right order all the time.
+
+
+-------
+
+Widget_QuickLinks_CultureReading is not translatedjava.lang.AssertionError: Refer above for strings not translated-- expected [true] but found [false]
+
+	at org.testng.Assert.fail(Assert.java:96)
+	at org.testng.Assert.failNotEquals(Assert.java:776)
+	at org.testng.Assert.assertTrue(Assert.java:44)
+
+*****Statement after assertion in test 1*******
+
+	at FirstTest.test1(FirstTest.java:34)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
+
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:583)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:719)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:989)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.privateRun(TestRunner.java:648)
+	at org.testng.TestRunner.run(TestRunner.java:505)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:364)
+
+*****in test 2*******
+
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
+	at org.testng.TestNG.runSuites(TestNG.java:1049)
+	at org.testng.TestNG.run(TestNG.java:1017)
+	at org.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:72)
+	at org.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:123)
+
+
+Soft Assert
+-----------
+
+Assertion that doesnt throw Assertion Error on fail. Execution continues to next statement.
+The test is marked PASSED.
+To get the exception, you need to use AssertAll() method as last statement in the @Test method. Then it behaves same as catching exception for Hard Assert except that the test is marked FAILED but all statements after failed assert is executed.
+SoftAsserts are used when you want execution to continue even after an assert fails.
+
+TestNg Listener
+---------------
+http://stqatools.com/testng-listeners/
+Can be used by cerating a custom class that eitehr inherits ITestListner (then have to implement all methods) or extend TestListenerAdapter (then override the methods you want)
+
+Reports
+-------
+If executed using testng.xml, then generates test-output folder at project root level and in it generates a report in html and xml format.
+
+DataProvider
+------------
+Must always return a 2D array of object type. Since java does auto type conversion, the elements passed to the method are not of Object type but of the actual type and so the test method param should be of the type receieved. 
+Example below, the data provider sends a 1D array of String type for every instance of the method.
+
+
+
+ @DataProvider(name="keywords")
+    public Object[][] language(){
+        return new Object[][]{{"Welcome_Text","Widget_QuickLinks_CultureReading"}};
+    }
+
+    @Test(dataProvider="keywords")
+    public void isTextTranslatedOnDashboardPage (String[] keywords) {
+    ..........
+    .........
+    }
+
+
+
+Maintaining order of test execution in TestNG - https://www.ontestautomation.com/running-your-tests-in-a-specific-order/
+By deafult the tests are not executed in the order they are written, will be random for every run.
+
+

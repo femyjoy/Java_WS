@@ -1,0 +1,10 @@
+Requests can be stored in a collection and teh collection can be run as a test suite
+The asserts for tests are written using JS script in the 'Test' tab
+tests["responsecode = 200"] = responseCode.code === 200;
+tests["Response time is less than 100ms"] = responseTime < 100; 
+
+The collection can also be run through command line using NewMan
+
+Chrome plug in and app is the same in terms of functionality and features
+But if the tool needs to be validated, then use the app version to get it validated.
+

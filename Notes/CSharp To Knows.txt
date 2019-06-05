@@ -1,0 +1,43 @@
+Language-defined properties (instead of just conventions)
+Delegates and related features:
+Events
+Lambda expressions and anonymous methods (big one!)
+Expression trees
+Extension methods
+Anonymous types
+Methods are non-virtual by default
+Saner handling of readonly/final fields
+Explicit interface implementation
+Iterator blocks
+The using statement
+User-defined value types (such as DateTime, decimal, Guid) and nullable value types to go with them
+Call back
+
+Entity Framework
+----------------
+Schema - container of objects with login permissions.
+View - virtual table based on Result set of the SQL statement.
+IS an ORM(Object Relational Mapping) framework which means you can generate SQL for DB tables based on classes and you can generate classes from tables.
+class name <--> table name
+property name <--> column name
+ADO.NET code to fetch data/delete data (ADO.NET is packages that gives DB interface)
+create instance of class and populate data
+Entity framework does all of this for you.
+Creating code from schema :
+To get EntityFramework, get NUGet plug in in VS and search for Entity using NuGet. You will see it in the References.
+Once query is executed in Management Studio and table created, go to VS and Add - Select ADO.NET and connect to DB. It retrieves, tables, views and procedures
+This will now show all the tables in the DB - like Departments, Employees and generates model(.edmx file) and classes(.cs file)
+and when creating class, the class name would be Department, Employee (singularised)
+Creating SQL From Model (.edmx files):
+Similarly we can create entities first(create model, .edmx files) and then generate DB from model.
+Right click on .edmx file and generate DB, this generates the SQL queries. .sql file.
+Now you can connect to DB from this file and execute.
+Creating SQL from Code (.cs files)
+If the classes/model change at any point, generating SQL is going to fail, this is beacuse 
+the first time tables are generated, there is a dbo._MigrationHistory table that has hashvalues of the class which
+gets changed when model/class changes.
+This can be configured using Global.asax.cs file where we can specify what to do when model changes, 
+eitehr drop and recreate or other options.
+You can also insert values programatically using Entity Framework by having a class and creating instances of class that defines teh table type.
+Like Employee.cs, Department.cs etc..
+ 

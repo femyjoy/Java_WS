@@ -1,0 +1,34 @@
+To add a new project to git repo:
+Create a new repo in github.
+Cd to top project level
+cd C:/ws_auto/sampleProject
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin <new repository url>
+git remote -v --> verifies the url to repo is correct
+git push -u origin master
+
+***********
+
+To not check in .class and other files, add them to .gitignore
+If .class was initially check in and from now on you dont want to, then :
+
+git rm --cached C:\ws_auto\localizationTest\target -r
+*.class
+
+To add a new .gitignore file to your project in windows:
+Create the file .gitignore.txt
+Right click on your current folder and select “open command window here” / go to cmd to this folder
+Type ren .gitignore.txt .gitignore
+
+To commit all files and push :
+git commit -m "" . --> This commits all changed files
+git push --> pushes all files in the directory except the ones to be ignored by .gitignore
+
+To commit only some files : 
+git commit file1, file2  -m "" 
+
+
+To delete folders and its contents recursively from remote :
+git rm -r --cached/-f <foldername>

@@ -1,0 +1,56 @@
+stateless vs stateful - https://www.youtube.com/watch?v=nFPzI_Qg3FU
+State is manipulated and changed using methods
+https://restfulapi.net/statelessness/
+REST is stateless
+
+REST - Design and Architectural style for implementing web services.
+There are constraints that define a service as REST service like every service should be marked as can be cached/uncached, shoudl be stateless meaning any client information should be handled at client side and should not be passed to server.
+A REST service that uses http -- RESTFUL service
+
+
+From Java 7?, use can use inbuilt java packages for api testing - HttpClient, HttpURLConnection classes
+Alternative is to use Apache HttpClient.
+
+Apache HttpClient
+creating client instance using DefaultHttpClient is deprecated
+use HttpBuilder class wiht builder pattern instead.
+
+gson : 
+JsonObject is inherently a List
+JsonArray is inherently a Map.
+
+Java :
+JSONObject  - 
+JSONArray
+
+When connecting if any cert errors, then the cert has to be added to the JDK's store of certs, cacerts - https://stackoverflow.com/questions/9619030/resolving-javax-net-ssl-sslhandshakeexception-sun-security-validator-validatore
+1. From the browser - go to cert details - Export in base 64 .cert format and then add it to cacerts. Password to change JDL cert is 'changeit'
+Command to add to cacert : 
+keytool -importcert -noprompt -trustcacerts -alias ALIASNAME -file C:/localSyn.cer -keystore "C:/Program Files/java/jdk1.8.0_181/jre/lib/security/cacerts" -storepass changeit
+(keytool is a library that comes with JRE and if not recognised then add it to your path in System variables)
+
+
+REST Services :
+GET - 200, 404, 401 (not authorised), 403 (no permissions)
+POST - 201 (returns id and uri of created resource), 401, 404
+PUT - 200, 401, 204 (content not found), responses are same as POST. PUT can allow creation of new resource as well. PUT always contains the ful lresource, full body.
+PATCH - 200 - same as PUT but to not update the full resource, only PATCHING up the resource, so body will have only parts. PATCH doesnot have to be idempotent.
+DELETE - 200 - deletes resource
+OPTIONS
+HEAD - returns header information, content type etc for response...It is used to get only response status and headers information from the server but no body (entity)
+PUT creates a new resource if id sent is not found.
+PATCH doensot cerate a new resource if its not found.
+
+GET, PUT, DELETE - idempotent, meaning the change in server side is made only the first time the request is made and repeated calls to the same request doesnot have any side effects.
+POST - non idempotent.
+when hitting refresh on browser if your last request was GET, browser does it but if last request was POST, like submitting a form, browser double checks with you if you want to do the refresh, this is bcos it can have side effects.
+
+The request and response content can be different, one in xml and other in json, though normally this is not done. The type is defined in header of request and response.
+
+microservices - independant separately deployable testable loosely coupled services, easy to maintain - as when change required, only that service can be changed and deployed without effecting the aplication. Each service can be written in a different programming language if need be.
+Follows high cohesion and low coupling
+
+UDDI - Universal, Description , Discovery and Integration
+is XML based standard for describing, publishing, and finding web services. UDDI uses WSDL.
+https://www.tutorialspoint.com/uddi/uddi_overview.htm
+WSDL can be used for REST but usually not, so UDDI is mostly associated with SOAP.

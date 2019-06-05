@@ -1,0 +1,202 @@
+﻿  File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+           //The below method will save the screen shot in d drive with name "screenshot.png"
+              FileUtils.copyFile(scrFile, new File("D:\\screenshot.png"));
+ 
+ 
+The plainest definition of exploratory testing is test design and test execution at the same time. This is the opposite of scripted testing (predefined test procedures, whether manual or automated). Exploratory tests, unlike scripted tests, are not defined in advance and carried out precisely according to plan.  A good exploratory tester will write down test ideas and use them in later test cycles. The scripted approach to testing attempts to mechanize the test process by taking test ideas out of a test designer's head and putting them on paper. There's a lot of value in that way of testing. But exploratory testers take the view that writing down test scripts and following them tends to disrupt the intellectual processes that make testers able to find important problems quickly. Expl testing - More open to new ideas. Exploratory testing is especially useful in complex testing situations, when little is known about the product, or as part of preparing a set of scripted tests. The basic rule is this: exploratory testing is called for any time the next test you should perform is not obvious, or when you want to go beyond the obvious. 
+ 
+ 
+cross browser testing
+1. pass parameters from TestNG.xml file
+ <?xml....>
+<!DOCTYPE...>
+<test name="FirefoxTest">
+<parameter name="browser" value="firefox" />
+ <classes>
+..
+..
+</text>
+ </suite>
+
+and in the test class, use the parameters
+ @Parameters("browser") - at class level. This parameter is accessible from the class methods
+or use the "Parameters("browser") at the @BeforeTest 
+ 
+ 
+Parallel execution of test
+ 
+<suite
+name="Suite"
+parallel="tests">
+
+
+TestNG
+@BEforeTest - is called before every <test> in TEstng XMl and @BeforeMethod before every @Test methods.
+<suite ... parallel="tests/class/methods" thread-count="2"> -> means run the test methods in parallel and spawn 2 threads to do the same.
+<test>
+<parameter.../>
+<classes>
+<class>
+....
+
+</>
+</>
+..
+
+parallel = "tests" means each of the test tags would be executed in parallel
+parallel = "methods" means each of the test methods would be executed in parallel.
+
+
+
+
+
+
+testng.org
+Introduction TestNG is a testing framework designed to simplify a broad range of testing needs, from unit testing (testing a class in isolation of the others) to ...
+ATestNG class is a Java class that contains at least one TestNG annotation. A test method is a Javamethod annotated by @Test in your source.
+Test methods are annotated with @Test. Methods annotated with @Test that happen to return a value will be ignored, unless you set allow-return-values to true in your testng.xml at suit or test level.
+
+running from command line using testng xml file - java testng.xml
+@Parameters are used to pass parameters to test from testng.xml file. This can be passed to test, constructor,before/after methods. You can also specify default param in the test method to be used if nothing passed from testng xml using @Optional in test method declaration.
+@Parameters("paramNAme")
+@Test
+pubic void test(@Optional("OptionalValueIFNothingIsPassed")String acceptParamHere){
+..
+}
+
+<suite>
+<parameter name="paramNAme" value="blahblah"/>
+<test>
+<classes>
+<class>
+...
+</class>
+</classes>
+</test>
+</suite>
+
+
+
+In Junit, a new instance of the test class is created for execution of every test method and so test methods are run independently of each other, and doesn't matter in what order they are run. This makes the order in which tests are run random.also mandates @BeforeClass and @AfterClass to be static so all instances share them. Static is always initialised by the JVM and not JUnit. JUnit however gives option to run test in some order using @FixMethodOrder(MethodSorters.NAME_ASCENDING) but not as flexible as TestNg which has dependsOn attribute.
+In TestNG, the same instance of test class is used for executing the test methods and hence @BeforeCLass and @AfterClass doesnt have to be static(and anyways they are run only once as per annotation) and also test methods can have dependencies since its run on same instance. You can have instance variables whose values can be changed from 1 test to another.
+@BeforeTest(new annotation in TestNG) - Runs before every test class under <test> mentioned in the testNg.xml file
+@BeforeMethod - is executed before every test method in the test class.
+Basically, BeforeTest is based on TestNg xml file and BeforeMethod is based on the test class.
+Test Suite in TestNG is designed using testNG xml file or using class or programatically generating testng file.
+
+In Junit its using annotations 
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+Test1.class,
+Test2.class
+})
+
+TestNg allows grouping at class level - suites (using testng xml file) and method level - groups (group annotation + testng xml file). Junit alternative to groups is 'categories' but doesnt have a @BeforeGroup and @AfterGroup.
+
+A suite is reperesented by a single xml file.
+1 test is represented by <test> tag and can have mutliple testng classes and methods.
+Grouping can be done at class level or method level. groups attribute can be specified at class level or method level.
+
+Parallelism is easily achieved using TestNG, either using testNg xml file to run the tests in a suite in parallel or run each test many times using :
+@Test(threadPoolSize = 3, invocationCount = 9, timeout = 1000). threadPoolSize represents the number of threads that can run this test at the same time!invocationCount - number of times this test can be invoked and fail if timesout>timeout value
+
+Advs :
+Data driven with DataProviders - with less code
+Parallelism is achieved with less code.
+Suites can be created more easily using testng xml file.
+The main adv of testng si the testng xml file which has configurations to run tests in multiple threads and in parallel.
+<suite thread-count="1" verbose="1" name="Suite name" annotations="JDK" parallel="tests">
+verbose defines the level of logging and parallel can have values 'suites', 'tests', 'methods'
+
+If Dataprovider is not given a name, then its name is defaulted to the method(which returns 2-d array) name.
+Dataprovider method should have return type of Object[][]. It can return simple and complex/user defined datatypes.
+Dataproviders are infact prefered over @Parameters from testng xml as we cannot pass cmplx data types from testng xml file.
+
+Logging:
+a class should implement ITestListener or extend TEstListenerAdapter and this has methods which has access to ITEstResult.
+
+Reporting
+implement IReporter
+
+To run testng programmatically without testng xml file:
+ TestNG testNg = new TestNG();
+testNg.setTestClasses(new Class[]{SimpleTestNgClass.class,SampleTestNgClass.class});
+testNg.setListenerClasses(Arrays.asList(TestListener.class));
+testNg.run();
+
+
+TEstNG is run using tasks in gradle and using configuration in pom.xml in maven
+Maven uses surefire plug in to execute the 'test' phase of maven. All the testng confiuration needed can be specified under
+plugins section of pom.xml under surefire plugin. The below uses testng.xml
+
+ <plugins>
+    [...]
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.19.1</version>
+        <configuration>
+          <suiteXmlFiles>
+            <suiteXmlFile>testng.xml</suiteXmlFile>
+<suiteXmlFile>testng123.xml</suiteXmlFile>
+
+          </suiteXmlFiles>
+<systemPropertyVariables>
+            <propertyName>firefox</propertyName> //passing param to test as system property
+          </systemPropertyVariables>
+<groups>functest,perftest</groups> //running specific groups
+<parallel>methods</parallel>
+          <threadCount>10</threadCount> // running tests in parallel
+
+        </configuration>
+      </plugin>
+    [...]
+</plugins>
+
+You can even execute parallel execution using dataproviders, run suites in parallel etc..
+
+3rd way to run tetsng is creating testng xml dynamically using XmlSuite, XmlClass etc...http://testng.org/doc/documentation-main.html#running-testng-programmatically
+
+
+ 
+ 
+ 
+data driven testing
+This leads to a problem that when test data needs to be updated actual script code must be changed. Another problem with having the test data inside test scripts is that creating similar tests with slightly different test data always requires programming. Because of these problems embedding test data into scripts is clearly not a viable solution when building larger test automation frameworks. A better approach is reading  the test data from external data sources and executing test based on it.
+The table typically contains values which correspond to boundary or partition input spaces. In the control methodology, test configuration is "read" from a database.
+ 
+Main benefit of data-driven test automation is that it makes creating and running lots of test variants very easy.
+Editing tests and adding new similar ones is easy and requires no programming skills.
+The data-driven approach also helps with maintenance. When the tested system changes it is often possible to change only either the test data or the test code and their maintenance responsibilities can also be divided between different people.
+The biggest limitation of the data-driven approach is that all test cases are similar and creating new kinds of tests requires implementing new driver scripts that understand different test data. test data and driver scripts are strongly coupled and need to be synchronized if either changes. Another disadvantage of data-driven testing is the initial set-up effort which requires programming skills and management.
+ 
+Keyword driven testing (checking) is commonly used when a different test is run, based on the data. E.g. the first data column is the "name" of the (category of) test you want to run; or data column X contains a flag to decide if the automation should run an additional process.
+https://www.toolsqa.com/selenium-webdriver/keyword-driven-framework/introduction/
+ 
+Test Strategy
+Test Strategy document contains overall objective of the project, the intended audience, details of each modules, what is the testing approach on top level for each module, test team memebers, each persons’ responsibility, scope of testing, different types of testing performed, tools used, defect management, when  and what tests would be executed etc…, reporting mechanism, test deliverables, Risks and Mitigation, can even include Training plan.
+
+Test Approach - is the implementation of the Test Strategy.
+ 
+Test Plan – Detailed report on how to organise and execute the tests, focuses on what, when, how to test and who will test.
+Says which all features to be tested, how to test them, test techniques,  testing tasks, test deliverables, schedule of tests, test approach - manual/automation, which all for automation/automation strategy – record and play back, data driver/key word driven etc.., test case ids etc…
+ 
+ Performance TEsting
+ --------------------
+ SOAP UI can be used for perf, load and functional testing
+can be inetgrated with Junit and run on CI
+
+Jemter is mainly a load test tool but can be used for fucntional flow testing as well.
+
+Users;
+Registered - Total number of users authorised to work in the system.
+Concurrent Users - Total number of users logged on to the system at a time. Active but not firing request.
+Simultaneous Users - Number of users who generate request to the server at the same time.
+
+Load/Demand - Number of request system receives per unit of time. Load can be avg - which is over a period of time and peak - which load that happens at a predictable frequency, like daily, weekly etc...
+Load Testing - Testing with realistic number of users, tests how the system scales with increased number of users.
+Endurance Testing - Testing the system over an extended duration of time, assesses the stability and durability of the system.
+Stress Testing - Extreme scenarios like large number of users.
+Volume Testing - Tests the robustness and reliability of the system while handling large volumes of data.
+
+Performance degradation can be due to h/w or s/w bottlenecks, like inadequate h/w resources, improper configuration, inadequate use of h/w by s/w, longer wait times in code, too many db locks due to improper design.

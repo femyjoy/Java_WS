@@ -1,0 +1,76 @@
+Merge - https://www.youtube.com/watch?v=5dk33HN8BX8
+
+To replace parts of string of some entries in table - 
+UPDATE dbo.xxx
+SET ColName = REPLACE(ColName, '123', '')
+WHERE ID <= 4
+AND Value LIKE '%123%'
+
+To copy table from one DB to another - 
+Select * into DestinationDB.dbo.tableName from SourceDB.dbo.SourceTable
+
+https://www.studytonight.com/dbms/joining-in-sql.php
+
+VARCHAR, NVARCHAR - can hold letters and numbers, can be of inderterminate lenght
+CHAR, NCHAR - fixed lenght
+ N stands for National Language Character Set and is used to specify a Unicode string.  Unicode characters take twice space on non-unicode characters
+
+ TRUNCATE , DROP , DELETE
+ DELETE - Removes rows from table, doesnot delete table,  DML - can be rolled back before commit;has to be commited to take effect, can have WHERE clause, doesnot re-initialise table
+ TRUNCATE - Removes rows from table,doesnot delete table, DDL - cannot be rolled back, cannot have WHERE clause, re-initiliazes table.
+ DROP - Drops the table, all info including indexes, DDL - cannot be rolled back
+
+ Indexing - is used to faster access of data, works like LL, indices can be based on one or multiple columns.
+
+ JOINs - https://www.studytonight.com/dbms/joining-in-sql.php
+ INNER JOIN
+ To select only some columns from either tables :
+ SELECT t1.col1, t1.col2,t2.col1,t2.col2 from Table1 t1 JOIN Table2 t2 ON t1.ID=t2.ID
+ You may or maynot use table alias.if not using alias, use the their full name with table name.
+
+ NATURAL JOIN - join based on column that is same datatype across both tables
+ CROSS JOIN - Every combination from both tables.
+ LEFT(OUTER) JOIN
+ RIGHT(OUTER) JOIN
+ FULL(OUTER) JOIN
+
+ View - Virtual table based on RS of a SQL statement.
+ COUNT(), AVG(), SUM() - is  done on columns and can have WHERE clause
+
+ Multiple values in WHERE - IN
+ Anding in WHERE - AND
+ Oring in WHERE - OR
+ Range of values in WHERE - BETWEEN value 1 AND vlaue2
+ HAVING == WHERE and is used in Aggregate functions
+
+ SELECT INTO - to copy data from one table to another.
+ MERGE - combines INSERT, UPDATE and DELETE at one go -https://www.essentialsql.com/introduction-merge-statement/
+
+ To connect using Java - https://docs.microsoft.com/en-us/sql/connect/jdbc/connection-url-sample?view=sql-server-2017
+
+ Mongo DB - Schema less, noSQL, implemented in C++
+ A mongo DB server will have several collections.
+ A collection is group of documents, which are schema less, emaning each document can have different fields but usually are meaningfully similar.
+ Document - schema less, key-value pair, json format
+ Collection == Table ; Document == Row ; Field == Column
+ https://www.tutorialspoint.com/mongodb/mongodb_environment.htm
+ Default data path - C:\data\db
+ show dbs - shows only dbs that have atleast 1 document in it.
+ use myDB -- switches if present, if not creates
+ db -- shows your current db
+ db.collection1.insert({}) - This creates collection1 and inserts into it.
+ Alternatively, you can create explicilty : db.createCollection(collection1, options) and then db.colelciton1.insert({})
+_id is unique for each document. if not mentioned explicitly mongodb will generate a unique ObjectId for the document.
+ save({}) is a wrapper over update and insert, if you pass in _id, save will update, insert will throw duplicate key error. If donot pass _id, save and insert behaves the same.
+ To save or insert multiple documens in one go,pass in array of documents - db.collection1.insert({},{},{})
+ To find documents based on condition you can give in db.collection1.find({$and:[{},{}]}, {_id:0,col1:1}) - result will have only col1 , db.collection1.find({$or:[{},{}]})
+ db.collection1.update({'colName':"blah blah"},{$set:{'coleName':"meaningful data"}})
+ db.remove({'colName':"me me", 1}) - 1 indicates remove only 1 occurance that meets the criteria
+ db.coll.find({}).limit(10).skip(1) - skips first record. Default value of skip is 0
+ db.coll.find({},{'colName':1}).sort(1) - 1 - ASC , -1 - DESC
+ Sharding - storing data on multiple servers
+ Replication - synchronising data on multiple servers for back up purposes.
+
+
+
+

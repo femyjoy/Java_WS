@@ -1,0 +1,152 @@
+﻿agile - cont dev/cont intgration envt - automation is key - prevention than detection - 
+quality over qty - quick feedback on the health of the application - 
+unit tests, integration tests, api tests - end to end tests, service level qa tests + sanity tests for SOA services, 
+smoke tests for regression
+
+To improve speed of test and efficiency, have more number of tests at API level.
+Funcional tests - can be mocked, mutliple functional packs can exists (grouping of tests)
+ 
+
+Regression test - validates integeration of one state of system to naother + test db connectivty + inetgration with third party systems
+These dont use mock services - shd use actual services.
+Shd be minimal and critical work flows.
+
+Scrum - time is divided into short work cadences - sprints.The product is kept in a potentially shippable state at all times.
+At the end of each sprint the team and pdt stakeholders meet ot see a demonstarated potentially shippable product increment
+and plan its next steps.
+
+KAnban - continuous delivery
+
+In general, in agile pdt is always i shippable state.Only difference is how quick its shipped.
+Kanban < Lean < XP < Scrum (in order of time to production)
+
+Automation - repeated test cases, critical high risk test cases, time consuming test cases, tedious test cases
+NOt uatomated - ad hoc test cases, atleast once manually tested, feature whose requirements change frequently
+Scope of automation
+
+
+build.gradle
+def task - use Javaexec command to execute the test hroups which can accept properties from system.
+or 
+execute("gradle -Dinclude=upgradeShopTest,acquisitionShopTest,checkoutTest -Dbrowser=firefox QA:functional:qa"
+
+Single and Double slash in xpath - https://stackoverflow.com/questions/36019544/if-double-slash-is-used-2-times-in-xpath-what-does-it-mean
+Double slash means look anywhere under the parent.This is relative path and starts from a unique parent node.
+Single slash means only direct child. This is absolute path and usually starts from the root.
+
+
+PageObjectModel
+page classes follow singleton pattern where constructor is private and you have a static method to instantiate the class.
+
+POM using PageFactory
+---------------------
+PageFactory - @FindBy locator or how and using
+PageFactory.initelements(new AjaxElementLocatorFactory(driver, timeoutValue),this) 
+Thsi is useful when the page is heavy on AJAX elements. The class waits for timeout value in seconds for all elements to be initialised, else throws a NoSuchElementFoundException.
+
+https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html
+
+
+Page Objects
+
+frameowrk
+properties like browser, groups can be passed from system or preoperties file
+serverroot, host, port, url, mongodb connection string - Configuration java static variables.
+
+private BasketPage(RemoteWebDriver driver){
+        super(driver,PAGE_TITEL,PAGE_URL)
+        summarySection=new SummarySection(driver)
+        basketSection=new BasketSection(driver)
+    }
+    public static BasketPage newPage(RemoteWebDriver driver){
+        BasketPage page = new BasketPage(driver)
+        page.waitUntilPageIsReady()
+        page
+    }
+    public BasketSection BasketSection(){
+        return basketSection
+    }
+    public SummarySection SummarySection(){
+        return summarySection
+    }
+
+Grid using WD - using RemoteWebDriver
+https://www.joecolantonio.com/2014/10/07/selenium-grid-how-to-setup-a-hub-and-node/
+
+Selenium Grid – How to Easily Setup a Hub and Node ...
+www.joecolantonio.com
+Get Started using Selenium Grid. Before setting up a Selenium grid you need to make sure you have Java installed and configured in your computer’s environment path.
+
+
+
+
+install node : run java -jar standalone.jar -role hub
+localhost:4444 is deafult hub.
+localhost:4444:/grid/console gives view of hub.
+register hub : standalone.jar -role node -hub <hubmachineip>/grid/register
+Once node is installed you can see 11 instances of RC and WD by default.(1 IE, 5 FF and 5 Chrome).
+Hub knows which all browsers and OS's are there on each node.
+DesiredCapabilities plays a big role to run on Grid.
+RemoteWebDriver with url/ip address to hub is used to run the test.HUb decides which node to execute on based
+ on node availability and driver and desired capability specified.
+Specific node url can be also given.
+Cloud systems are used for nodes - like BrowserStack,TestingNode,Saucelabs etc..
+ which gives different browsers and OS's. Register there and get username and key.
+Normaly they give the sample code for url which has the hub url and other credentials.
+
+Database
+
+local - json file which has instances of user
+integration - sql using java.sql.DbConneciton api
+For any mongo connection - Java mongo driver - Mongo client - http://www.mkyong.com/mongodb/java-mongodb-hello-world-example/
+http://pingax.com/mongodb-basics-with-java/
+Each documetn in collecion can be implemented as a map using BasicDBObject or Document.
+all operations like collection.find() - returns cursor; coll.findOne()-returns a DBObject, coll.update(<searchDbObject>,<setDBObject>) are avalable
+
+service testing - Jackson libraries' ObjectMapper or JsonParser can be used.
+ObjectMapper's write or read can be used. Java pojo's set and get methods are used.
+Client class that has different service operation methods which accepts the root url, rest of request url,
+headers and status.
+create a map of headers, this is iterated through in the method and set to the HttpGet or Post request instance.
+In the get, post methods, the response is 
+
+String result = EntityUtils.toString(httpResponse.getEntity());
+ 
+    // Convert the result as a String to a JSON object
+    JSONObject jo = new JSONObject(result);
+ 
+    Assert.assertEquals(expectedValue, jo.getString(element)); - to validate in json file
+
+or use Objectmapper, convert response to string , then to JSONObject
+
+
+
+
+
+
+
+
+
+CHECK
+getting response object in json format - httpclientbuilder
+common webdriver , testng, web service, framework questions
+abstraction, encapsulation
+test web service in java - using httpclientbuilder
+
+common core java questions:
+1. String to Date conversion - use SimpleDateFormat - http://javarevisited.blogspot.in/2011/09/step-by-step-guide-to-convert-string-to.html
+
+2. Splitting a String - http://javarevisited.blogspot.in/2011/09/how-to-string-split-example-in-java.html
+
+3. OutOfMemoryErrors - http://javarevisited.blogspot.in/2011/09/javalangoutofmemoryerror-permgen-space.html
+
+4. Example of polymorphism in Java : contains() in collection executes Overridden equals() of the object type and not Object class. - RT Polymorphism.
+
+5. Why String, Wrapper classes are considered good keys in Maps - bcos they are immutable and final and hence best for equals() and hashCode().
+
+
+
+
+
+Thanks,
+Femy

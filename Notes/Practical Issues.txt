@@ -1,0 +1,48 @@
+﻿install and set java 8 when system already had java 6, downloaded JDK and set path to Java\jdk1.8.0_144 but still java -version in cmd prompt gave :
+
+Error: could not find java.dll
+Error: could not find Java SE Runtime Environment
+
+Fix :
+Removed any User %JAVA_HOME% variable and leave only the system one.
+Remove any C:\ProgramData\Oracle\Java\javapath; from Path
+If there are any Oracle installation and Java executables set in path, they might be conflicting with this one and so move Java path to first and remove any other Java path.
+close open cmd and check java -version a
+
+when using xpath, always rememeber to use // or / while mentioning the path unlike in cssSelector
+
+
+
+Observations:
+webdriver with chrome :
+YOu would need to install the chrome driver separately and specify teh system property.
+The 'data:,' URL is just the default address that chromedriver navigates to when launching chrome. So this by itself doesn't necessarily mean that anything is going wrong. Just remember to add the protocol - i.e. "http://".
+
+Learnings:
+----------
+A class or interface type T will be initialized immediately before the first occurrence of >any one of the following:
+
+T is a class and an instance of T is created.
+T is a class and a static method declared by T is invoked.
+A static field declared by T is assigned.
+A static field declared by T is used and the field is not a constant variable (§4.12.4).
+T is a top-level class, and an assert statement (§14.10) lexically nested within T is executed.
+Invocation of certain reflective methods in class Class and in package java.lang.reflect also causes class or interface initialization. A class or interface will not be initialized under any other circumstance.
+
+This means that if you have a configuration class with static fields with values then, the class is initialised automatically before any instance is created.
+
+if you want a AfterMEthod to run just for one test, then either cerate a custom annotation and check if the annnotation is available using Method class or simply :
+
+@AfterMethod
+    public void cleanUp(Method method){
+        if(method.getName().equals("validatePageWithMoreTests")){
+            navigateToGuidedTestOrderingPage().deleteGroup();
+        }
+
+    }
+
+
+TestNg AfterMEthod can take in Method, ITestContext etc as parameters to get it to do something specific for a test method.
+REad more : 5.18 - Dependency injection - http://testng.org/doc/documentation-main.html
+
+

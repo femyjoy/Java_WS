@@ -1,0 +1,45 @@
+Chrome has a headless mode from Chrome 59.0 - https://developers.google.com/web/updates/2017/04/headless-chrome
+
+Threadlocal is used in driver instantiation if you want to handle parallel runs
+private static ThreadLocal<RemoteWebDriver> driver = new ThreadLocal<~>();
+
+Java 8 and streams 
+http://winterbe.com/posts/2014/07/31/java8-stream-tutorial-examples/
+
+:: in Java 8
+http://www.baeldung.com/java-8-double-colon-operator
+
+List declaration and initialisation in 1 line :
+
+ArrayList<String> list = new ArrayList<String>() {{
+    add("A");
+    add("B");
+    add("C");
+}};
+
+
+ArrayList<String> places = new ArrayList<String>(
+    Arrays.asList("Buenos Aires", "Córdoba", "La Plata"));
+
+Arrays.asList("","") always returns a unmodifiable list.
+So, if you try to modify it later, say by adding another list to it, we get RTE - java.lang.UnsupportedOperationException
+Below code would throw java.lang.UnsupportedOperationException.
+List l1 = Arrays.asList("Default BACTEC Culture","Sinus Culture");
+List l2 = new ArrayList<String>(){{
+            add("Tissue Culture");
+            add("Urine Culture");
+        }};
+l1.addAll(l2)
+
+
+Getting sublist from a list/arraylist
+arrList.subList(fromIndex, toIndex2)
+
+
+the forEach for list/set is not executed if the collection is empty.It takes care of it internally. Internally it uses iterator.
+
+
+
+
+
+

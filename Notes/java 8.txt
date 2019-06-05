@@ -10,14 +10,16 @@ when using IDEs, the classpath is taken care by the IDE
 
 Lamda Expression and Annonymous Inner class
 *******************************************
-Annonymous classes are declared and used when you want a just in time implementation of a class or Functional Interface (I with just one method). So, only a single object is created for the class while declaring it. In that way you do not have to define a subclass or explicit implementation of an interface.
-From Java 8, you can have default methods and static method in a I but anonymous inner class/lamda expressions can be used to implement any I that has a single abstract method (Functional I).
+Annonymous classes are declared and used when you want a just in time implementation of a class or Functional Interface (I with just one method). So, only a single object is created for the class while declaring it. In that
+ way you do not have to define a subclass or explicit implementation of an interface.
+From Java 8, you can have default methods and static method in a I but anonymous inner class/lambda expressions can be used to implement any I that has a single abstract method (Functional I).
 The default methods in an I is by default public and so doesnt have to be explicitly declared public.
 If not declared as default, methods are public and abstract by default.
 Some differences with a normal class would be it can either implement only 1 interface or extend a class at a time and also it cannot have a constructor as it doesnt even have a name.
 
-Lamda expressions can be used to define annonymous inner classes ina functional programming style with Java 8  
+Lamda expressions can be used to define anonymous inner classes in a functional programming style with Java 8
 In lambda expressions, you dont have to specify the method name, the param type is also interpreted by JVM, just pass in params in brackets and implement the method. You do not even need the new keyword.
+Anonymous inner classes can be generated for abstract classes as well as for Functional interfaces.
 
 Comparator<String> comp =  (o1,o2) --> o1.compareTo(o2)
 Comparator<String> comp =  (o1,o2) --> {return o1.compareTo(o2);  };
@@ -28,6 +30,13 @@ There are many functional I available in the java.util.function package which is
 
 Every class in a java file generates a .class file. Annonymous inner classes have numbers for their .class file. Lambdas$1.class.
 But when annonymous inner classes are implemnted using lamda expression then the .class file is not generated.
+
+lambdas and Anonymous inner classes - https://dzone.com/articles/how-lambdas-and-anonymous-inner-classesaic-work
+Anonymous - can implement abstrcat classes with multiple abstrcat methods as well as I
+Lamda - only functional I
+Anonymous- generates .class
+Lambda - doesnot - is an invokeddynamic instruction, generates a static method for the implementation and uses LamdaFactory to invoke the method.
+Lamdas can access only effectively final variables, anonymous inner class can access instance and so can have state.
 
 
 GIT

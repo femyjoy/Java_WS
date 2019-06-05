@@ -1,0 +1,14 @@
+Synapsys
+-------- 
+Test Env : https://bdisqa.cloudapp.net
+Staging Env - https://bdisqastaging.cloudapp.net/    - 
+User Name :-   admin
+Password :- a#dmi#n1
+Automation Env : https://bdisqa-AIT.cloudapp.net/     - India 
+
+
+
+
+
+
+
