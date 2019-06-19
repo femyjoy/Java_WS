@@ -47,7 +47,7 @@ when hitting refresh on browser if your last request was GET, browser does it bu
 
 The request and response content can be different, one in xml and other in json, though normally this is not done. The type is defined in header of request and response.
 
-microservices - independant separately deployable testable loosely coupled services, easy to maintain - as when change required, only that service can be changed and deployed without effecting the aplication. Each service can be written in a different programming language if need be.
+microservices - independant separately deployable testable loosely coupled services, easy to maintain - as when change required, only that service can be changed and deployed without effecting the application. Each service can be written in a different programming language if need be.
 Follows high cohesion and low coupling
 
 UDDI - Universal, Description , Discovery and Integration
